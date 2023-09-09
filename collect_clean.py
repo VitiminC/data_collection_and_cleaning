@@ -20,9 +20,9 @@ subreddit = input('subreddit name ex(cats)')
 time = 'all'
 # filepath = Path(f"data/raw_data/{subreddit}.csv"
 filepath = Path(f"data/raw_data/{subreddit}.csv")  # Location of output CSV
-num_posts = 5  # number of posts parsed from "hot" catagory *note: some will be filtered out, expect about 20% returns*
+num_posts = 1000  # number of posts parsed from "hot" catagory *note: some will be filtered out, expect about 20% returns*
 num_comments = 10  # min number of comments per post
-get_comments = 3  # number of comments you want to download
+get_comments = 300  # number of comments you want to download
 
 client_id = "RBC5PY5SqCs6PfBrGx6-wg"  # "Script" Public id from https://www.reddit.com/prefs/apps
 client_secret = "Emg7uUxiKPSM-lTN822UyGhgY2Ptfg"  # "Script" Private id from https://www.reddit.com/prefs/apps
