@@ -20,9 +20,9 @@ subreddit = input('subreddit name ex(cats)')
 time = 'all'
 # filepath = Path(f"data/raw_data/{subreddit}.csv"
 filepath = Path(f"data/raw_data/{subreddit}.csv")  # Location of output CSV
-num_posts = 1000  # number of posts parsed from "hot" catagory *note: some will be filtered out, expect about 20% returns*
+num_posts = 5  # number of posts parsed from "hot" catagory *note: some will be filtered out, expect about 20% returns*
 num_comments = 10  # min number of comments per post
-get_comments = 300  # number of comments you want to download
+get_comments = 3  # number of comments you want to download
 
 client_id = "RBC5PY5SqCs6PfBrGx6-wg"  # "Script" Public id from https://www.reddit.com/prefs/apps
 client_secret = "Emg7uUxiKPSM-lTN822UyGhgY2Ptfg"  # "Script" Private id from https://www.reddit.com/prefs/apps
@@ -95,7 +95,7 @@ class Cleaner:
         self.cols = ['title', 'image_link', 'subreddit']
 
     # Removes emoticons
-    def remove_emojis(data):
+    def remove_emojis(self, data):
         emoj = re.compile("["
                           u"\U0001F600-\U0001F64F"  # emoticons
                           u"\U0001F300-\U0001F5FF"  # symbols & pictographs
@@ -119,7 +119,7 @@ class Cleaner:
         return re.sub(emoj, '', data)
 
     # removes characters that appear more than twice ex: booo -> boo
-    def remove_dupes(s):
+    def remove_dupes(self, s):
         ans = ""
         seen = ''
         i = 0
@@ -141,7 +141,7 @@ class Cleaner:
             ans = ans[0:-1]
         return ans
 
-    def splitter(text, span):
+    def splitter(self, text, span):
         s = span
         words = re.sub(r'[^\w\s]', '', text).split(' ')
         t = [" ".join(words[i:i + s]) for i in range(0, len(words), s)]
@@ -157,13 +157,12 @@ class Cleaner:
             for j in range(len(data_subset.iloc[i])):
                 text = data_subset.iloc[i][j]
                 try:
-                    text = remove_emojis(text)
-                    print(text)
+                    text = self.remove_emojis(text)
                 except:
                     continue
 
                 try:
-                    text = remove_dupes(text)
+                    text = self.remove_dupes(text)
                 except:
                     print('dupe removal failed')
                     continue
@@ -177,7 +176,7 @@ class Cleaner:
                 # text = self.pf.censor(text)
                 if any(word in data_subset.iloc[i][j].lower() for word in self.delete_list):
                     text = 0
-                data_subset['comment' + str(j + 1)][i] = text
+                data_subset['comment' + str(j + 2)][i] = text
             print(i, "out of", len(data_subset))
 
         # format data
